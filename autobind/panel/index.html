@@ -1,0 +1,18 @@
+<h2>自动绑定脚本,需要先有测试环境或者生产环境的配置文件</h2>
+<hr />
+<div class="con">
+    <div class="rowCon">
+        <!--放置label和input-->
+        <div class="inputItem">
+            <span style="display: block;">需要挂载的模板数量:</span>
+            <ui-num-input v-value="mainTemplateCount" class="item"></ui-num-input>
+        </div>
+        <!-- <div class="inputItem">
+            <span>需要挂载的模板数量:</span>
+            <ui-num-input v-value="mainTemplateCount" class="item"></ui-num-input>
+        </div> -->
+    </div>
+    <span style="display: block;">项目名称:</span>
+    <ui-input v-value="proName" placeholder="请输入项目名称" class="item"></ui-input>
+    <ui-button id="btn" @confirm="startBind" class="item">开始自动绑定脚本</ui-button>
+</div>
