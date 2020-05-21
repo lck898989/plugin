@@ -1,18 +1,41 @@
-<h2>自动绑定脚本,需要先有测试环境或者生产环境的配置文件</h2>
+<h4 style="margin-left: 20%;">自动绑定脚本,需要先有测试环境或者生产环境的配置文件</h2>
+<h5 style="margin-left: 20%;color: aqua;" v-for="(index,text) in pluginFunction" :item="text">{{index + 1}}:{{text}}</h3>
 <hr />
 <div class="con">
     <div class="rowCon">
         <!--放置label和input-->
         <div class="inputItem">
-            <span style="display: block;">需要挂载的模板数量:</span>
+            <div style="display: block;">需要挂载的模板数量:</div>
             <ui-num-input v-value="mainTemplateCount" class="item"></ui-num-input>
         </div>
-        <!-- <div class="inputItem">
-            <span>需要挂载的模板数量:</span>
-            <ui-num-input v-value="mainTemplateCount" class="item"></ui-num-input>
-        </div> -->
+        <div class="inputItem">
+            <div style="display: block;">需要多少个相声:</div>
+            <ui-num-input v-value="talkNum" class="item"></ui-num-input>
+        </div>
+        
     </div>
-    <span style="display: block;">项目名称:</span>
-    <ui-input v-value="proName" placeholder="请输入项目名称" class="item"></ui-input>
+    <div class="newRowCon">
+        <div class="inputItem" v-for="item in talkNum" :key="item">
+            <div style="display: block;">第{{item + 1}}个相声预制体的名字:</div>
+            <ui-input v-value="talkNameArray[item]" class="item"></ui-input>
+        </div>
+    </div>
+    <hr />
+    <div class="rowCon">
+        <!--放置label和input-->
+        <div class="inputItem">
+            <div style="display: block;">需要多少个大关卡:</div>
+            <ui-num-input v-value="largeLevelNum" class="item"></ui-num-input>
+        </div>
+        
+    </div>
+    <div class="newRowCon">
+        <div class="inputItem" v-for="(index,it) in largeLevelNum" :key="it">
+            <div style="display: block;">第{{index + 1}}个大关卡的小关卡数量:</div>
+            <ui-input v-value="topicLevelArray[index]" class="item"></ui-input>
+        </div>
+    </div>
+    <ui-checkbox :checked="isDeleteOrigin" @confirm="setIsDelete" style="font-size: 10px;">isDeleteOrigin(自动添加脚本是否将原来挂的节点删除默认false)</ui-checkbox>
+    <hr />
     <ui-button id="btn" @confirm="startBind" class="item">开始自动绑定脚本</ui-button>
 </div>

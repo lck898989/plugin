@@ -24,21 +24,64 @@ Editor.Panel.extend({
         /** 需要挂载的模板数量 */
         mainTemplateCount: 27,
         /** 项目名称 */
-        proName: "114"
+        proName: "",
+
+        talkNum: 5,
+
+        /** 相声名字数组 */
+        talkNameArray: [
+          "SL1U1_4_talk_pt1_1_1",
+          "SL1U1_4_talk_pt2_1_1",
+          "SL1U1_4_talk_pt3_1_1",
+          "SL1U1_4_talk_pt4_1_1",
+          "SL1U1_4_talk_pt5_1_1"
+        ],
+
+        /*** 实际题目的关卡数数组 */
+        topicLevelArray: [
+          3,
+          4,
+          5,
+          3
+        ],
+
+        /** 大关卡数量(包含题目的，相声，转场除外) */
+        largeLevelNum: 4,
+
+        /*** 目前插件功能 */
+        pluginFunction: [
+          "***********功能如下************",
+          "自动在主场景中添加脚本及挂载相应的预制体",
+          "为每个题目预制体添加喇叭,进度条，实时教具提示节点，并且设置他们的属性，比如进度条的当前进度",
+          "为每个预制体的可交互节点挂载cc_play"
+        ],
+        /*** 自动添加脚本是否将原来挂的节点删除 */
+        isDeleteOrigin: false
 
       },
       created() {
         console.log("vue 组件挂载成功");
       },
+      /** 监听talkNum */
+      watch: {
+        talkNum: (val) => {
+          Editor.log("val is ",typeof val);
+          
+        }
+      },
       methods: {
         /*** 开始绑定脚本 */
         startBind() {
-          Editor.log("模板的数量是：",this.mainTemplateCount);
-          if(this.proName) {
+          
+          // for(let i = 0; i < )
+          if(this.talkNameArray.length === this.talkNum) {
           //  / */
-           let name = this.proName
+           let name = this.talkNameArray;
+           let num  = this.mainTemplateCount;
+           let levelarr = this.topicLevelArray;
+           let isDelete = this.isDeleteOrigin;
            /*** 找到场景中的Canvas节点挂载相应的组件 */
-           Editor.Scene.callSceneScript("autobind",'get-canvas-children',{templateCount: 27,proName: name},(err,info) => {
+           Editor.Scene.callSceneScript("autobind",'get-canvas-children',{templateCount: num,talkNameArr: name,levelarr,isDelete},(err,info) => {
              if(info === "success") {
                Editor.success("自动挂载组件脚本成功!!!");
              }
@@ -48,8 +91,15 @@ Editor.Panel.extend({
 
           } else {
             // alert("请输入项目名称");
-            Editor.warn("请输入项目名称");
+            // Editor.warn("请输入项目名称");
           }
+        },
+        /** 设置isDeleteOrigin属性 */
+        setIsDelete(event) {
+          
+          // 开始设置状态
+          this.isDeleteOrigin = event.detail.value;
+          
         }
       }
     })

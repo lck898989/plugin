@@ -26,16 +26,22 @@ module.exports = {
     },
     'loadprefab' (event,params) {
       let has = Editor.assetdb.exists(params.dbUrl);
-      Editor.log("params is ",params,has);
       if(has && event.reply) {
         let uuid = Editor.assetdb.urlToUuid(params.dbUrl);
-        let obj = Editor.assetdb.loadMetaByUuid(uuid);
         event.reply(uuid);
+      } else {
+        event.reply("null");
       }
     },
     'saveScene' (event,params) {
       // 保存场景
-      Editor.Ipc.sendToPanel('scene',"scene:stash-and-save");
+      Editor.Ipc.sendToPanel("scene","scene:stash-and-save",err => {
+        if(err.code === 'ETIMEOUT') {
+          Editor.warn("刷新超时");
+        }
+        event.reply();
+        return;
+      },5000);
     }
   },
 };

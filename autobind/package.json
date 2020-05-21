@@ -12,7 +12,7 @@
       "message": "autobind:say-hello"
     }
   },
-  "scene-script": "sceneWalker.js",
+  "scene-script": "./sceneWalker.js",
   "panel": {
     "main": "panel/index.js",
     "type": "dockable",
