@@ -30,11 +30,11 @@ Editor.Panel.extend({
 
         /** 相声名字数组 */
         talkNameArray: [
-          "SL1U1_8_talk_pt1",
-          "SL1U1_8_talk_pt2",
-          "SL1U1_8_talk_pt3",
-          "SL1U1_8_talk_pt4",
-          "SL1U1_8_talk_pt5"
+          "SL1U1_8_sp_talk_pt1",
+          "SL1U1_8_sp_talk_pt2",
+          "SL1U1_8_sp_talk_pt3",
+          "SL1U1_8_sp_talk_pt4",
+          "SL1U1_8_sp_talk_pt5"
         ],
 
         /*** 实际题目的关卡数数组 */
@@ -91,7 +91,7 @@ Editor.Panel.extend({
            let isDeleteReal = this.isDeleteReal;
            let isDeleteProgress = this.isDeleteProgress;
            /*** 找到场景中的Canvas节点挂载相应的组件 */
-           Editor.Scene.callSceneScript("autobind",'get-canvas-children',{templateCount: num,talkNameArr: name,levelarr,isDelete,isDeleteReal,isDeleteProgress},(err,info) => {
+           Editor.Scene.callSceneScript("autobind",'auto_bind',{templateCount: num,talkNameArr: name,levelarr,isDelete,isDeleteReal,isDeleteProgress},(err,info) => {
              if(info === "success") {
                Editor.success("自动挂载组件脚本成功!!!");
              }

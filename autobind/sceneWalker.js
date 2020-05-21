@@ -11,9 +11,9 @@ module.exports = {
      * @param  {} event 从渲染进程或者是主进程传递过来的事件
      * @param  {} params 事件携带的参数
      */
-    'get-canvas-children': async (event,params) => {
+    'auto_bind': async (event,params) => {
 
-        /** 是否需要删除原来挂载在预制体里面的节点---试验功能 */
+        /** 是否需要删除原来挂载在预制体里面的节点 */
         let isDelete = params.isDelete;
 
         let sceneTemplates = [];
@@ -113,7 +113,7 @@ module.exports = {
                                     }
                                 
                                 }
-                            })
+                            });
                             /** 喇叭节点 */
                             voiceNode = res.data.getChildByName("bt_voice");
                             if(voiceNode && isDelete) {
@@ -158,6 +158,31 @@ module.exports = {
                                 })
                             });
                             Editor.assetdb.refresh(dbUrl,() => {
+                                resolve();
+                            });
+                        }
+                        if(comName === "emptyTemplateController" || comName === "clickTemplateController") {
+                            /** 取消过渡场景交互节点的cc_play组件和默认动画的关闭 */
+                            res.data.children.filter((node) => {
+                                if(node.name.indexOf("interactive") >= 0 && node.getComponent(cc.Animation)) {
+                                    /** 挂载cc_play组件 */
+                                    if(node.getComponent("cc_play")) {
+                                        /** 禁用cc_play组件 */ 
+                                        node.getComponent("cc_play").enabled = false;
+                                    }
+                                    /** 关闭进场播放默认动画功能 */
+                                    node.getComponent(cc.Animation).playOnLoad = false;
+                                    
+                                }
+                            });
+                            // 刷新资源
+                            await new Promise((resolveIn,rejectIn) => {
+                                Editor.assetdb.saveExists(dbUrl,res.serialize(),() => {
+                                    resolveIn();
+                                })
+                            });
+                            Editor.assetdb.refresh(dbUrl,() => {
+                                Editor.log("资源刷新完成");
                                 resolve();
                             });
                         }
@@ -243,9 +268,8 @@ module.exports = {
             let hornUuid = '';
             let realUuid = '';
             let progressUuid = '';
-            hornUuid = await getUuidByUrl("db://assets/prefabs/btn_voice.prefab");
 
-            Editor.log("hornuuid is ",hornUuid);
+            hornUuid = await getUuidByUrl("db://assets/prefabs/btn_voice.prefab");
             /** 实时教具uuid */
             realUuid = await getUuidByUrl("db://assets/prefabs/realTimeTeachingAids.prefab");
 
@@ -388,17 +412,17 @@ module.exports = {
                             
                             break;
                         case "Accumulate":
-                            await changeTopic(prefabName,"correspondTemplateController",i);
+                            await changeTopic(prefabName,"correspondTemplateController");
                             break;
                         case "Order":
-                            await changeTopic(prefabName,"correspondTemplateController",i);
+                            await changeTopic(prefabName,"correspondTemplateController");
                             break;
                         case "Select":
                             // selectTemplateController
-                            await changeTopic(prefabName,"selectTemplateController",i);
+                            await changeTopic(prefabName,"selectTemplateController");
                             break;
                         case "Combine":
-                            await changeTopic(prefabName,"combineTemplateController",i);
+                            await changeTopic(prefabName,"combineTemplateController");
                             break;        
                     }
                 }
