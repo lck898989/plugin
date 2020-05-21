@@ -35,7 +35,11 @@
             <ui-input v-value="topicLevelArray[index]" class="item"></ui-input>
         </div>
     </div>
-    <ui-checkbox :checked="isDeleteOrigin" @confirm="setIsDelete" style="font-size: 10px;">isDeleteOrigin(自动添加脚本是否将原来挂的节点删除默认false)</ui-checkbox>
+    <div class="newRowCon">
+        <ui-checkbox :checked="isDeleteHorn" @confirm="setIsDelete" style="font-size: 15px;">删除原来的喇叭节点</ui-checkbox>
+        <ui-checkbox :checked="isDeleteReal" @confirm="setIsDeleteReal" style="font-size: 15px;">删除原来的实时教具节点</ui-checkbox>
+        <ui-checkbox :checked="isDeleteProgress" @confirm="setIsDeletePro" style="font-size: 15px;">删除原来的进度条节点</ui-checkbox>
+    </div>
     <hr />
     <ui-button id="btn" @confirm="startBind" class="item">开始自动绑定脚本</ui-button>
 </div>

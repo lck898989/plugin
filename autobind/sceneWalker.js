@@ -61,7 +61,6 @@ module.exports = {
                 })
             });
             Editor.assetdb.refresh(dbUrl,() => {
-                Editor.log("资源刷新完成");
                 resolve();
             });
         }
@@ -117,10 +116,19 @@ module.exports = {
                             })
                             /** 喇叭节点 */
                             voiceNode = res.data.getChildByName("bt_voice");
+                            if(voiceNode && isDelete) {
+                                voiceNode.setParent(null);
+                            }
                             /*** 实时教具节点 */
                             realTimeNode = res.data.getChildByName("realTimeTeachingAids");
+                            if(realTimeNode && params.isDeleteReal) {
+                                realTimeNode.setParent(null);
+                            }
                             /** 进度条节点 */
                             progress = res.data.getChildByName(`progressBar_${curLevelNum}`);
+                            if(progress && params.isDeleteProgress) {
+                                progress.setParent(null);
+                            }
 
                             /** 设置进度条的状态 */
                             if(progress) {
@@ -150,7 +158,6 @@ module.exports = {
                                 })
                             });
                             Editor.assetdb.refresh(dbUrl,() => {
-                                Editor.log("资源刷新完成");
                                 resolve();
                             });
                         }

@@ -26,6 +26,7 @@ module.exports = {
     },
     'loadprefab' (event,params) {
       let has = Editor.assetdb.exists(params.dbUrl);
+      
       if(has && event.reply) {
         let uuid = Editor.assetdb.urlToUuid(params.dbUrl);
         event.reply(uuid);

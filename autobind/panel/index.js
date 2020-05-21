@@ -30,11 +30,11 @@ Editor.Panel.extend({
 
         /** 相声名字数组 */
         talkNameArray: [
-          "SL1U1_4_talk_pt1_1_1",
-          "SL1U1_4_talk_pt2_1_1",
-          "SL1U1_4_talk_pt3_1_1",
-          "SL1U1_4_talk_pt4_1_1",
-          "SL1U1_4_talk_pt5_1_1"
+          "SL1U1_8_talk_pt1",
+          "SL1U1_8_talk_pt2",
+          "SL1U1_8_talk_pt3",
+          "SL1U1_8_talk_pt4",
+          "SL1U1_8_talk_pt5"
         ],
 
         /*** 实际题目的关卡数数组 */
@@ -55,8 +55,16 @@ Editor.Panel.extend({
           "为每个题目预制体添加喇叭,进度条，实时教具提示节点，并且设置他们的属性，比如进度条的当前进度",
           "为每个预制体的可交互节点挂载cc_play"
         ],
-        /*** 自动添加脚本是否将原来挂的节点删除 */
-        isDeleteOrigin: false
+
+        /** 自动添加脚本的时候是否将喇叭节点删除掉 */
+        isDeleteHorn: false,
+
+        /** 自动添加脚本的时候是否将实时教具节点删除 */
+        isDeleteReal: false,
+
+        /** 自动添加脚本是否将进度条节点删除 */
+        isDeleteProgress: false
+
 
       },
       created() {
@@ -79,9 +87,11 @@ Editor.Panel.extend({
            let name = this.talkNameArray;
            let num  = this.mainTemplateCount;
            let levelarr = this.topicLevelArray;
-           let isDelete = this.isDeleteOrigin;
+           let isDelete = this.isDeleteHorn;
+           let isDeleteReal = this.isDeleteReal;
+           let isDeleteProgress = this.isDeleteProgress;
            /*** 找到场景中的Canvas节点挂载相应的组件 */
-           Editor.Scene.callSceneScript("autobind",'get-canvas-children',{templateCount: num,talkNameArr: name,levelarr,isDelete},(err,info) => {
+           Editor.Scene.callSceneScript("autobind",'get-canvas-children',{templateCount: num,talkNameArr: name,levelarr,isDelete,isDeleteReal,isDeleteProgress},(err,info) => {
              if(info === "success") {
                Editor.success("自动挂载组件脚本成功!!!");
              }
@@ -98,8 +108,16 @@ Editor.Panel.extend({
         setIsDelete(event) {
           
           // 开始设置状态
-          this.isDeleteOrigin = event.detail.value;
+          this.isDeleteHorn = event.detail.value;
           
+        },
+
+        setIsDeleteReal(event) {
+          this.isDeleteReal = event.detail.value;
+        },
+
+        setIsDeletePro(event) {
+          this.isDeleteProgress = event.detail.value;
         }
       }
     })
