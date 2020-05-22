@@ -102,7 +102,8 @@ module.exports = {
                         if(isRealTopic) {
 
                             res.data.children.filter((node) => {
-                                if(node.name.indexOf("interactive") >= 0 && node.getComponent(cc.Animation)) {
+                                /** 可交互节点上有动画组件并且动画的剪辑数量不为0 */
+                                if(node.name.indexOf("interactive") >= 0 && node.getComponent(cc.Animation) && node.getComponent(cc.Animation).getClips().length > 0) {
                                     /** 挂载cc_play组件 */
                                     if(!node.getComponent("cc_play")) {
                                         node.addComponent("cc_play");
@@ -164,13 +165,9 @@ module.exports = {
                             /** 取消过渡场景交互节点的cc_play组件和默认动画的关闭 */
                             res.data.children.filter((node) => {
                                 if(node.name.indexOf("interactive") >= 0 && node.getComponent(cc.Animation)) {
-                                    /** 挂载cc_play组件 */
-                                    if(node.getComponent("cc_play")) {
-                                        /** 禁用cc_play组件 */ 
-                                        node.getComponent("cc_play").enabled = false;
-                                    }
-                                    /** 关闭进场播放默认动画功能 */
-                                    node.getComponent(cc.Animation).playOnLoad = false;
+                                    /** 删除可交互节点 */
+                                    node.setParent(null);
+                                    
                                     
                                 }
                             });
