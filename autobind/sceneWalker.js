@@ -4,7 +4,6 @@
  * 
  */
 
-
 const fs = require("fire-fs");
 module.exports = {
     /**
@@ -71,14 +70,14 @@ module.exports = {
         /**
          *  定义内部使用的方法 
          * 只针对非过渡关卡，以后优化
-         * @param  {} dbUrl 预制体资源路径
-         * @param  {} templates 预制体数组
-         * @param  {} uuid 改资源的uuid
-         * @param  {} comName 需要的脚本组件名字
-         * @param  {} hornNode? 希望挂载的喇叭节点
-         * @param  {} realNode? 希望挂载的实时教具节点
-         * @param  {} progressNode? 希望挂载的进度条节点
-         * @param  {} progressLevel? 当前进度条的第几个关卡
+         * @param  {String} dbUrl 预制体资源路径
+         * @param  {[cc.Prefab]} templates 预制体数组
+         * @param  {String} uuid 改资源的uuid
+         * @param  {String} comName 需要的脚本组件名字
+         * @param  {cc.Node} hornNode? 希望挂载的喇叭节点
+         * @param  {cc.Node} realNode? 希望挂载的实时教具节点
+         * @param  {cc.Node} progressNode? 希望挂载的进度条节点
+         * @param  {cc.Node} progressLevel? 当前进度条的第几个关卡
          */
         const loadPrefab = (dbUrl,uuid,templates,comName,hornNode,realNode,progressNode,curLevelNum,progressLevel) => {
 
