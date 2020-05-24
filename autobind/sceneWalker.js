@@ -15,6 +15,9 @@ module.exports = {
         /** 是否需要删除原来挂载在预制体里面的节点 */
         let isDelete = params.isDelete;
 
+        /** 是否在环节关卡里面更换进度条显示 */
+        let isChangeShowInSection = params.isChangePInSection;
+
         let sceneTemplates = [];
         /** 获取场景文件 */
         let mainSceneUrl = Editor.Project.path + "/assets/scenes/mainScene.fire";
@@ -78,8 +81,9 @@ module.exports = {
          * @param  {cc.Node} realNode? 希望挂载的实时教具节点
          * @param  {cc.Node} progressNode? 希望挂载的进度条节点
          * @param  {cc.Node} progressLevel? 当前进度条的第几个关卡
+         * @param  {Boolean} isChange? 是否应该在游戏环节关卡更换进度条的显示
          */
-        const loadPrefab = (dbUrl,uuid,templates,comName,hornNode,realNode,progressNode,curLevelNum,progressLevel) => {
+        const loadPrefab = (dbUrl,uuid,templates,comName,hornNode,realNode,progressNode,curLevelNum,progressLevel,isChange) => {
 
             // 加载prefab资源
             return new Promise((resolve,reject) => {
@@ -99,6 +103,30 @@ module.exports = {
                         res.data.active = true;
 
                         let isRealTopic = comName && comName !== "emptyTemplateController" && comName !== "clickTemplateController";
+                        /** 进度条适配方法 */
+                        const progressAdapter = async () => {
+                            /*** 检查是否添加进度条暂停节点 */
+                            let sectionProgressNodeUuid = await getUuidByUrl(`db://assets/prefabs/progressBar_${curLevelNum}_${progressLevel}_stop.prefab`);
+                            if(sectionProgressNodeUuid === "null") {
+
+                                Editor.error(`请先添加progressBar_${curLevelNum}_${progressLevel}_stop.prefab预制体`);
+
+                            } else {
+                                /** 存在进度条暂停节点就把原来旧的进度条节点删除替换成新的 */
+                                let sectionProgressNode = await loadprefabNodeByUuid(sectionProgressNodeUuid);
+                                /** 检查该节点下是否有更换前的进度条节点 */
+                                progress = res.data.getChildByName(`progressBar_${curLevelNum}`);
+                                if(progress) {
+                                    /** 删除旧的进度条节点 */
+                                    progress.setParent(null);
+                                }
+
+                                /** 将该进度条节点添加到该预制体上 */
+                                sectionProgressNode.setParent(res.data);
+
+                            }
+                        }
+
                         if(isRealTopic) {
 
                             res.data.children.filter((node) => {
@@ -124,10 +152,19 @@ module.exports = {
                             if(realTimeNode && params.isDeleteReal) {
                                 realTimeNode.setParent(null);
                             }
+
+                            
                             /** 进度条节点 */
-                            progress = res.data.getChildByName(`progressBar_${curLevelNum}`);
-                            if(progress && params.isDeleteProgress) {
-                                progress.setParent(null);
+                            if(!isChange) {
+                                progress = res.data.getChildByName(`progressBar_${curLevelNum}`);
+                                if(progress && params.isDeleteProgress) {
+                                    progress.setParent(null);
+                                }
+
+                            } else if(isChange && isChangeShowInSection) {
+
+                                await progressAdapter();
+
                             }
 
                             /** 设置进度条的状态 */
@@ -146,10 +183,14 @@ module.exports = {
                                 realNode.setParent(res.data);
                                 
                             }
-                            if(progressNode && !progress) {
+                            if(progressNode && !progress && !isChange) {
+
                                 progressNode.setParent(res.data);
-                                // Editor.log("progressComponent is ",progressNod);
                                 progressNode.getComponent("cc_play_progress_bar").current = progressLevel;
+                                    
+                            } else if(isChangeShowInSection && isChange) {
+                                // 用环节关卡特有的进度条
+                                await progressAdapter();
                             }
                             // 刷新资源
                             await new Promise((resolveIn,rejectIn) => {
@@ -167,7 +208,6 @@ module.exports = {
                                 if(node.name.indexOf("interactive") >= 0 && node.getComponent(cc.Animation)) {
                                     /** 删除可交互节点 */
                                     node.setParent(null);
-                                    
                                     
                                 }
                             });
@@ -294,8 +334,9 @@ module.exports = {
             /**
              * @param  {String} prefabName 预制体的名字
              * @param  {String} comName 组件名字
+             * @param  {Boolean} isChange 是否在环节关卡里改变进度条的显示
              */
-            const changeTopic = async (prefabName,comName) => {
+            const changeTopic = async (prefabName,comName,isChage) => {
                 /** 重置过渡关卡游标 */
                 trasitionIndex = 0;
                 delays.push(2000);
@@ -307,7 +348,7 @@ module.exports = {
 
                     // 将uuid添加到mainScene里面
                     if(hornNode && realNode) {
-                        await loadPrefab(dbUrl,uuid,templates,comName,hornNode,realNode,progressBarNode,curLevelNum,realLevelIndex);
+                        await loadPrefab(dbUrl,uuid,templates,comName,hornNode,realNode,progressBarNode,curLevelNum,realLevelIndex,isChage);
                     }
                     // 刷新编辑器
                     Editor.Ipc.sendToMain("autobind:saveScene");
@@ -408,17 +449,17 @@ module.exports = {
                             
                             break;
                         case "Accumulate":
-                            await changeTopic(prefabName,"correspondTemplateController");
+                            await changeTopic(prefabName,"correspondTemplateController",j > 0);
                             break;
                         case "Order":
-                            await changeTopic(prefabName,"correspondTemplateController");
+                            await changeTopic(prefabName,"correspondTemplateController",j > 0);
                             break;
                         case "Select":
                             // selectTemplateController
-                            await changeTopic(prefabName,"selectTemplateController");
+                            await changeTopic(prefabName,"selectTemplateController",j > 0);
                             break;
                         case "Combine":
-                            await changeTopic(prefabName,"combineTemplateController");
+                            await changeTopic(prefabName,"combineTemplateController",j > 0);
                             break;        
                     }
                 }

@@ -64,7 +64,10 @@ Editor.Panel.extend({
         isDeleteReal: false,
 
         /** 自动添加脚本是否将进度条节点删除 */
-        isDeleteProgress: false
+        isDeleteProgress: false,
+
+        /** 是否在环节关卡中切换进度条的显示样式 */
+        isChangeProgressInSection: false
 
 
       },
@@ -91,8 +94,10 @@ Editor.Panel.extend({
            let isDelete = this.isDeleteHorn;
            let isDeleteReal = this.isDeleteReal;
            let isDeleteProgress = this.isDeleteProgress;
+           let isChangePInSection = this.isChangeProgressInSection;
+
            /*** 找到场景中的Canvas节点挂载相应的组件 */
-           Editor.Scene.callSceneScript("autobind",'auto_bind',{templateCount: num,talkNameArr: name,levelarr,isDelete,isDeleteReal,isDeleteProgress},(err,info) => {
+           Editor.Scene.callSceneScript("autobind",'auto_bind',{templateCount: num,talkNameArr: name,levelarr,isDelete,isDeleteReal,isDeleteProgress,isChangePInSection},(err,info) => {
              if(info === "success") {
                Editor.success("自动挂载组件脚本成功!!!");
              }
@@ -119,6 +124,10 @@ Editor.Panel.extend({
 
         setIsDeletePro(event) {
           this.isDeleteProgress = event.detail.value;
+        },
+        /** 设置是否改变环节关卡中的进度条的样式默认false */
+        setIsChangeProgressInSection(event) {
+          this.isChangeProgressInSection = event.detail.value;
         }
       }
     })

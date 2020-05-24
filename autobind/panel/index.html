@@ -45,6 +45,7 @@
         <ui-checkbox :checked="isDeleteHorn" @confirm="setIsDelete" style="font-size: 15px;">删除原来的喇叭节点</ui-checkbox>
         <ui-checkbox :checked="isDeleteReal" @confirm="setIsDeleteReal" style="font-size: 15px;">删除原来的实时教具节点</ui-checkbox>
         <ui-checkbox :checked="isDeleteProgress" @confirm="setIsDeletePro" style="font-size: 15px;">删除原来的进度条节点</ui-checkbox>
+        <ui-checkbox :checked="isChangeProgressInSection" @confirm="setIsChangeProgressInSection" style="font-size: 15px;">在环节关卡中替换进度条</ui-checkbox>
     </div>
     <hr />
     <ui-button id="btn" @confirm="startBind" class="green">开始自动绑定脚本</ui-button>
