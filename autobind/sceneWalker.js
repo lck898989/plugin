@@ -5,12 +5,14 @@
  */
 
 const fs = require("fire-fs");
+let bgcache = {};
 module.exports = {
     /**
      * @param  {} event 从渲染进程或者是主进程传递过来的事件
      * @param  {} params 事件携带的参数
      */
     'auto_bind': async (event,params) => {
+        let BgCache = require("./bgCache");
 
         /** 是否需要删除原来挂载在预制体里面的节点 */
         let isDelete = params.isDelete;
@@ -186,7 +188,6 @@ module.exports = {
 
             /**
              *  定义内部使用的方法 
-             * 只针对非过渡关卡，以后优化
              * @param  {String} dbUrl 预制体资源路径
              * @param  {String} uuid 改资源的uuid
              * @param  {String} comName 需要的脚本组件名字
@@ -242,8 +243,13 @@ module.exports = {
                     }
 
                     if(isRealTopic) {
-
+                        let bg = null;
+                        let findBg = false;
                         res.data.children.filter((node) => {
+                            if(!findBg && node.width === 1536 && node.height === 3326) {
+                                bg = node;
+                                findBg = true;
+                            }
                             /** 可交互节点上有动画组件并且动画的剪辑数量不为0 */
                             if(node.name.indexOf("interactive") >= 0 && node.getComponent(cc.Animation) && node.getComponent(cc.Animation).getClips().length > 0) {
                                 let sum = 0;
@@ -268,6 +274,16 @@ module.exports = {
                             
                             }
                         });
+                        if(bg) {
+                            let spritCom = bg.getComponent(cc.Sprite);
+                            let bgUUid = spritCom.spriteFrame._uuid;
+                            /** 是否可以延迟加载 */
+                            let canDelayLoad = BgCache.cacheBg(spritCom.spriteFrame.name,bgUUid,bgcache);
+                            if(canDelayLoad) {
+                                res.data.asyncLoadAssets = true;
+                            }
+
+                        }
                         /** 喇叭节点 */
                         voiceNode = res.data.getChildByName("bt_voice");
                         if(voiceNode && isDelete) {
