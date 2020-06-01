@@ -16,7 +16,5 @@ const CacheBg = {
             }
         }
     }
-
-
 }
 module.exports = CacheBg;

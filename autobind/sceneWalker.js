@@ -380,7 +380,7 @@ module.exports = {
                             
                             let isFindTransition = false;
 
-                            trasitionIndex++;
+                            
                             if(!isTrasition) {
                                 levelIndex++;
 
@@ -401,6 +401,8 @@ module.exports = {
                             /** 重置小关卡游标 */
                             realLevelIndex = 0;
                             if(prefabName.indexOf("dt") >= 0 || prefabName.indexOf("lj") >= 0) {
+                                
+                                trasitionIndex++;
                                 dbUrl = `db://assets/templates/trasition${levelIndex - 1}_${trasitionIndex}.prefab`;
                                 
                                 uuid = await getUuidByUrl(dbUrl);
