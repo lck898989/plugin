@@ -31,7 +31,7 @@ const DragonDeal = {
                 newNode.addComponent(sp.Skeleton);
             }
 
-            let dragonDataStr = `${animalName}_Side.json`;
+            let dragonDataStr = `${animalName}_${animalDir}.json`;
             if(!skeletonCache) {
                 Editor.assetdb.queryAssets('db://assets/skeleton/**\/*','',async (err,results) => {
                     Editor.log("err is ",err," and results is ",results);
