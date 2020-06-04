@@ -12,7 +12,9 @@ module.exports = {
      * @param  {} params 事件携带的参数
      */
     'auto_bind': async (event,params) => {
-        let BgCache = require("./bgCache");
+
+        let BgCache = Editor.require("packages://autobind/bgCache.js");
+        let DragonDeal = Editor.require("packages://autobind/DragonDeal.js");
 
         /** 是否需要删除原来挂载在预制体里面的节点 */
         let isDelete = params.isDelete;
@@ -246,6 +248,9 @@ module.exports = {
                         let bg = null;
                         let findBg = false;
                         res.data.children.filter((node) => {
+
+                            DragonDeal.checkNodeHasDragon(node);
+
                             if(!findBg && node.width === 1536 && node.height === 3326) {
                                 bg = node;
                                 findBg = true;

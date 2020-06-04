@@ -22,19 +22,19 @@ Editor.Panel.extend({
       el: this.shadowRoot,
       data: {
         /** 需要挂载的模板数量 */
-        mainTemplateCount: 32,
+        mainTemplateCount: 27,
         /** 项目名称 */
         proName: "",
 
-        talkNum: 9,
+        talkNum: 5,
 
         /** 相声名字数组 */
         talkNameArray: [
-          "SL2U1_6_talk_pt1",
-          "SL2U1_6_talk_pt2",
-          "SL2U1_6_talk_pt3",
-          "SL2U1_6_talk_pt4",
-          "SL2U1_6_talk_pt5"
+          "SL1U1_8_sp_talk_pt1",
+          "SL1U1_8_sp_talk_pt2",
+          "SL1U1_8_sp_talk_pt3",
+          "SL1U1_8_sp_talk_pt4",
+          "SL1U1_8_sp_talk_pt5"
         ],
 
         /*** 实际题目的关卡数数组 */
