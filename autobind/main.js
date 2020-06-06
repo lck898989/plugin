@@ -16,6 +16,9 @@ module.exports = {
       Editor.Panel.open('autobind');
 
     },
+    'openRes' () {
+      Editor.Panel.open('autobind:res_import');
+    },
     'say-hello' () {
       Editor.log('Hello World!');
       // send ipc message to panel

@@ -5,16 +5,23 @@
   "author": "Cocos Creator",
   "main": "main.js",
   "main-menu": {
-    "autobind/open": {
+    "autobind/自动绑定脚本": {
       "message": "autobind:open"
     },
-    "autobind/hello": {
-      "message": "autobind:say-hello"
+    "autobind/资源批量导入": {
+      "message": "autobind:openRes"
     }
   },
   "scene-script": "./sceneWalker.js",
   "panel": {
     "main": "panel/index.js",
+    "type": "dockable",
+    "title": "autobind",
+    "width": 800,
+    "height": 600
+  },
+  "panel:res_import": {
+    "main": "panel/res_import/index.js",
     "type": "dockable",
     "title": "autobind",
     "width": 800,
