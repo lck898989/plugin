@@ -6,6 +6,7 @@
 
 const fs = require("fire-fs");
 let bgcache = {};
+const mapDelayTime = 500;
 module.exports = {
     /**
      * @param  {} event 从渲染进程或者是主进程传递过来的事件
@@ -415,10 +416,10 @@ module.exports = {
                                 if(uuid !== "null") {
                                     isFindTransition = true;
                                     prefabName.indexOf("dt") >= 0 ? await loadPrefab(dbUrl,uuid,"emptyTemplateController") : await loadPrefab(dbUrl,uuid,"clickTemplateController");
-                                    prefabName.indexOf("dt") >= 0 ? delays.push(2000) : delays.push(0);
+                                    prefabName.indexOf("dt") >= 0 ? delays.push(mapDelayTime) : delays.push(0);
                                 } else {
                                     isFindTransition = false;
-                                    prefabName.indexOf("dt") >= 0 ? delays.push(2000) : delays.push(0);
+                                    prefabName.indexOf("dt") >= 0 ? delays.push(mapDelayTime) : delays.push(0);
                                 }
                                 
                             } else if(prefabName.indexOf("xs") >= 0) {
