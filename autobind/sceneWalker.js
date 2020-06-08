@@ -282,11 +282,13 @@ module.exports = {
                         });
                         if(bg) {
                             let spritCom = bg.getComponent(cc.Sprite);
-                            let bgUUid = spritCom.spriteFrame._uuid;
-                            /** 是否可以延迟加载 */
-                            let canDelayLoad = BgCache.cacheBg(spritCom.spriteFrame.name,bgUUid,bgcache);
-                            if(canDelayLoad) {
-                                res.data.asyncLoadAssets = true;
+                            if(spritCom) {
+                                let bgUUid = spritCom.spriteFrame._uuid;
+                                /** 是否可以延迟加载 */
+                                let canDelayLoad = BgCache.cacheBg(spritCom.spriteFrame.name,bgUUid,bgcache);
+                                if(canDelayLoad) {
+                                    res.data.asyncLoadAssets = true;
+                                }
                             }
 
                         }
