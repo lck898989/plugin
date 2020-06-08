@@ -354,6 +354,11 @@ module.exports = {
                                 node.setParent(null);
                                 
                             }
+                            if(node.getComponent("cc_playAnimClip_onEvent")) {
+                                /** 打开延迟播放 */
+                                node.getComponent("cc_playAnimClip_onEvent").delay = true;
+                                node.getComponent("cc_playAnimClip_onEvent").delayDuration = 0;
+                            }
                         });
                         await refresh(dbUrl,res);
                     }
