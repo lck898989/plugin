@@ -15,6 +15,25 @@ const CacheBg = {
                 Editor.log("资源名重名");
             }
         }
+    },
+    /** 自动生成工具的相声名字语音缓存 */
+    configCache: {
+        mainTemplateCount: 27,
+        talkNum: 5,
+        talkNameArray: [
+          "SL3U1_1_talk_pt1",
+          "SL3U1_1_talk_pt2",
+          "SL3U1_1_talk_pt3",
+          "SL3U1_1_talk_pt4",
+          "SL3U1_1_talk_pt5"
+        ],
+        topicLevelArray: [
+            3,
+            4,
+            5,
+            3
+        ],
+        largeLevelNum: 4
     }
 }
 module.exports = CacheBg;

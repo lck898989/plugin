@@ -3,6 +3,8 @@
 /*** 渲染线程 */
 const fs = require("fire-fs");
 const path = require("fire-path");
+const bgCache = Editor.require("packages://autobind/bgCache.js");
+
 Editor.Panel.extend({
   // css style for panel
   style: fs.readFileSync(Editor.url("packages://autobind/panel/index.css"),'utf-8'),
@@ -73,18 +75,41 @@ Editor.Panel.extend({
       },
       created() {
         console.log("vue 组件挂载成功");
+        /** 检查本地缓存有没有游戏挂载信息 */
+        let info = localStorage.getItem("gameLevelInfo");
+        if(info) {
+          let infoJson = JSON.parse(info);
+          
+          this.talkNum = infoJson.talkNum;
+          this.talkNameArr = infoJson.talkNameArr;
+          this.largeLevelNum = infoJson.largeLevelNum;
+          this.topicLevelArray = infoJson.topicLevelArray;
+          this.mainTemplateCount = infoJson.mainTemplateCount;
+        }
       },
       /** 监听talkNum */
       watch: {
+        largeLevelNum: (val) => {
+          bgCache.configCache.largeLevelNum = val;
+        },
         talkNum: (val) => {
           Editor.log("val is ",typeof val);
+          bgCache.configCache.talkNum = val;
           
+        },
+        mainTemplateCount: (val) => {
+          bgCache.configCache.mainTemplateCount = val;
         }
       },
       methods: {
         /*** 开始绑定脚本 */
         startBind() {
-          
+          bgCache.configCache.topicLevelArray = this.topicLevelArray;
+          bgCache.configCache.talkNameArr = this.talkNameArr;
+
+          /** 缓存绑定脚本需要的参数 */
+          localStorage.setItem('gameLevelInfo',JSON.stringify(bgCache.configCache));
+
           // for(let i = 0; i < )
           if(this.talkNameArray.length === this.talkNum) {
           //  / */

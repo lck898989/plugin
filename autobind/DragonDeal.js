@@ -46,7 +46,7 @@ const DragonDeal = {
                                 let skeletonCom = newNode.getComponent(sp.Skeleton);
                                 /** 这里返回的是null暂时不清楚是怎么回事，h5运行环境节点脚本组件可以获取到暂时不做 */
                                 if(skeletonCom) {
-
+                                    
                                 }
                             }
                         }
