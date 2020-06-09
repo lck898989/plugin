@@ -349,16 +349,18 @@ module.exports = {
                     if(comName === "emptyTemplateController" || comName === "clickTemplateController") {
                         /** 取消过渡场景交互节点的cc_play组件和默认动画的关闭 */
                         res.data.children.filter((node) => {
-                            if(node.name.indexOf("interactive") >= 0 && node.getComponent(cc.Animation)) {
+                            if(comName === "clickTemplateController" && node.name.indexOf("interactive") >= 0 && node.getComponent(cc.Animation)) {
                                 /** 删除可交互节点 */
                                 node.setParent(null);
                                 
                             }
-                            if(node.getComponent("cc_playAnimClip_onEvent")) {
-                                /** 打开延迟播放 */
-                                node.getComponent("cc_playAnimClip_onEvent").delay = true;
-                                node.getComponent("cc_playAnimClip_onEvent").delayDuration = 0;
+                            if(comName === "clickTemplateController") {
+                                if(node.getComponent("cc_playAnimClip_onEvent")) {
+                                    /** 打开延迟播放 */
+                                    node.getComponent("cc_playAnimClip_onEvent").delay = true;
+                                }
                             }
+
                         });
                         await refresh(dbUrl,res);
                     }
