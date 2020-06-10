@@ -14,6 +14,9 @@ const DragonDeal = {
             if(!node.getComponent("cc_play")) {
                 node.addComponent("cc_play");
             }
+            if(!node.getComponent("cc_animPlayAction")) {
+                node.addComponent("cc_animPlayAction");
+            }
             
             let _index = node.name.indexOf("_");
             let _afterString = node.name.substr(_index + 1);
@@ -27,8 +30,8 @@ const DragonDeal = {
             let newNode = new cc.Node();
             newNode.name = `${animalName}_${animalDir}`;
             if(!node.getChildByName(newNode.name)) {
-                newNode.setParent(node);
-                newNode.addComponent(sp.Skeleton);
+                // newNode.setParent(node);
+                // newNode.addComponent(sp.Skeleton);
             }
 
             let dragonDataStr = `${animalName}_${animalDir}.json`;
