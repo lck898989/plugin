@@ -5,6 +5,9 @@
  */
 
 const fs = require("fire-fs");
+const util = require("./util");
+const Tool = require("./tools/tool");
+
 let bgcache = {};
 const mapDelayTime = 500;
 module.exports = {
@@ -248,7 +251,9 @@ module.exports = {
                     if(isRealTopic) {
                         let bg = null;
                         let findBg = false;
-                        res.data.children.filter((node) => {
+
+                        let cc_play_count = 0;
+                        res.data.children.filter(async (node) => {
 
                             DragonDeal.checkNodeHasDragon(node);
 
@@ -257,24 +262,36 @@ module.exports = {
                                 findBg = true;
                             }
                             /** 可交互节点上有动画组件并且动画的剪辑数量不为0 */
-                            if(node.name.indexOf("interactive") >= 0 && node.getComponent(cc.Animation) && node.getComponent(cc.Animation).getClips().length > 0) {
+                            if(node.name.indexOf("interractive") >= 0 && node.getComponent(cc.Animation) && node.getComponent(cc.Animation).getClips().length > 0) {
                                 let sum = 0;
                                 let shouldAdd = true;
-                                node.getComponent(cc.Animation).getClips().reduce((index,item) => {
-                                    if(!item) {
-                                        return sum++;
+                                let clips = node.getComponent(cc.Animation).getClips();
+                                for(let m = 0; m < clips.length; m++) {
+                                    let item = clips[m];
+                                    if(item && !m) {
+                                        // let defaultAniUuid = await Tool.selectAnimation(item._name);
+                                        // let defaultAni = await Tool.loadResByUuid(defaultAniUuid.uuid);
+
+                                        // node.getComponent(cc.Animation).defaultClip = defaultAni;
+
                                     }
-                                },0);
+                                    if(item) {
+                                        sum++;
+                                    }
+                                }
+                                
                                 sum === node.getComponent(cc.Animation).getClips().length ? shouldAdd = false : shouldAdd = true;
                                 /** 挂载cc_play组件 */
                                 if(shouldAdd) {
+                                    cc_play_count++;
 
                                     if(!node.getComponent("cc_play")) {
                                         node.addComponent("cc_play");
-                                        node.getComponent("cc_play").isRemote = true;
-                                    } else {
-                                        node.getComponent("cc_play").isRemote = true;
                                     }
+                                    if(cc_play_count === 1) 
+                                        node.getComponent("cc_play").isRemote = true;
+                                    else 
+                                        node.getComponent("cc_play").isRemote = false;
                                     
                                 }
                             

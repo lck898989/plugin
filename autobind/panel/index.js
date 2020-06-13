@@ -81,7 +81,7 @@ Editor.Panel.extend({
           let infoJson = JSON.parse(info);
           
           this.talkNum = infoJson.talkNum;
-          this.talkNameArr = infoJson.talkNameArr;
+          this.talkNameArray = infoJson.talkNameArray;
           this.largeLevelNum = infoJson.largeLevelNum;
           this.topicLevelArray = infoJson.topicLevelArray;
           this.mainTemplateCount = infoJson.mainTemplateCount;
@@ -105,8 +105,9 @@ Editor.Panel.extend({
         /*** 开始绑定脚本 */
         startBind() {
           bgCache.configCache.topicLevelArray = this.topicLevelArray;
-          bgCache.configCache.talkNameArr = this.talkNameArr;
+          bgCache.configCache.talkNameArray = this.talkNameArray;
 
+          
           /** 缓存绑定脚本需要的参数 */
           localStorage.setItem('gameLevelInfo',JSON.stringify(bgCache.configCache));
 

@@ -31,3 +31,29 @@ exports.execCmd = async (cmd) => {
         })
     })
 }
+exports.selectAnimation = async (animationName) => {
+    return new Promise((resolve,reject) => {
+        Editor.assetdb.queryAssets("db://assets/animation/\/*",'',(err,results) => {
+            if(err) {
+                reject();
+                return;
+            }
+            results.forEach((item,index) => {
+                if(item.url.includes(animationName)) {
+                    resolve({uuid: item.uuid,url: item.url});
+                }
+            })
+        })
+    })
+}
+exports.loadResByUuid = async (uuid) => {
+    return new Promise((resolve,reject) => {
+        cc.loader.load({type: 'uuid',uuid},(err,res) => {
+            if(err) {
+                reject();
+                return;
+            }
+            resolve(res);
+        })
+    })
+}
