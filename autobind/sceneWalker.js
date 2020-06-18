@@ -184,7 +184,11 @@ module.exports = {
 
                 } else {
                     /* 如果正式题目没有找到的话就用对应模板填个坑等资源整理好之后重新生成一遍就好了*/
-                    Editor.warn("输入的预制体名字与动效给的预制体名字不同请检查");
+                    if(prefabName.includes(" ")) {
+                        Editor.warn("*******该预制体的名字存在空格********");
+                    } else {
+                        Editor.warn("输入的预制体名字与动效给的预制体名字不同请检查");
+                    }
                     let tempPrefabUrl = `db://assets/templates/correspondTemplate1.prefab`;
                     let tempUuid = await getUuidByUrl(tempPrefabUrl);
                     if(tempUuid !== "null") {

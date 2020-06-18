@@ -41,7 +41,6 @@ module.exports = {
       // 保存场景
       Editor.Ipc.sendToPanel("scene","scene:stash-and-save",err => {
         if(err.code === 'ETIMEOUT') {
-          Editor.warn("刷新超时");
         }
         event.reply();
         return;
