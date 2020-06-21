@@ -267,7 +267,7 @@ module.exports = {
                                 findBg = true;
                             }
                             /** 可交互节点上有动画组件并且动画的剪辑数量不为0 */
-                            if(node.name.indexOf("interractive") >= 0 && node.getComponent(cc.Animation) && node.getComponent(cc.Animation).getClips().length > 0) {
+                            if(node.name.indexOf("interactive") >= 0 && node.getComponent(cc.Animation) && node.getComponent(cc.Animation).getClips().length > 0) {
                                 let sum = 0;
                                 let shouldAdd = true;
                                 let clips = node.getComponent(cc.Animation).getClips();
@@ -285,7 +285,7 @@ module.exports = {
                                     }
                                 }
                                 
-                                sum === node.getComponent(cc.Animation).getClips().length ? shouldAdd = false : shouldAdd = true;
+                                sum === node.getComponent(cc.Animation).getClips().length ? shouldAdd = true : shouldAdd = false;
                                 /** 挂载cc_play组件 */
                                 if(shouldAdd) {
                                     cc_play_count++;

@@ -107,6 +107,9 @@ Editor.Panel.extend({
           bgCache.configCache.topicLevelArray = this.topicLevelArray;
           bgCache.configCache.talkNameArray = this.talkNameArray;
 
+          if(this.talkNameArray.length !== this.talkNum && this.talkNameArray.length > this.talkNum) {
+            this.talkNameArray.splice(this.talkNum,this.talkNameArray.length - this.talkNum);
+          }
           
           /** 缓存绑定脚本需要的参数 */
           localStorage.setItem('gameLevelInfo',JSON.stringify(bgCache.configCache));
