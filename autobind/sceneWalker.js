@@ -97,14 +97,19 @@ module.exports = {
                 return
             }
         }
-        Editor.log("************************开始绑定脚本*****************************");
+        
         let levels = JSON.parse(config).levels;
 
         let canIn = (levels && levels.length > 0 && params.templateCount === levels.length);
 
         if(canIn) {
             let canvas = cc.find("Canvas");
-
+            if(!canvas) {
+                Editor.log("**************************请切换到主场景主执行该插件******************************");
+                return;
+            }
+            
+            Editor.log("************************开始绑定脚本*****************************");
             if(!canvas.getComponent("cc_core_levelManager")) {
                 canvas.addComponent("cc_core_levelManager");
             }
