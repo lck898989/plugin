@@ -285,7 +285,7 @@ module.exports = {
                                     }
                                 }
                                 
-                                sum === node.getComponent(cc.Animation).getClips().length ? shouldAdd = true : shouldAdd = false;
+                                sum > 0 ? shouldAdd = true : shouldAdd = false;
                                 /** 挂载cc_play组件 */
                                 if(shouldAdd) {
                                     cc_play_count++;
